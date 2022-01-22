@@ -1,0 +1,16 @@
+{
+  "name": "framework-bouffalo-sdk",
+  "version": "5.00001.210913",
+  "description": "Bouffalo SDK Framework",
+  "keywords": [
+    "framework",
+    "arduino",
+    "bl602",
+    "bouffalo",
+    "riscv"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsaiko/framework-bouffalo-sdk.git"
+  }
+}
