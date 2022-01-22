@@ -1,10 +1,9 @@
 {
   "name": "framework-bouffalo-sdk",
-  "version": "5.00001.210913",
+  "version": "1.6.32-104",
   "description": "Bouffalo SDK Framework",
   "keywords": [
     "framework",
-    "arduino",
     "bl602",
     "bouffalo",
     "riscv"
