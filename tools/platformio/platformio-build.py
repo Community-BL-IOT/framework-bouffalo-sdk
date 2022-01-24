@@ -134,7 +134,10 @@ env.Append(
         "CONF_USER_ENABLE_VFS_ROMFS",
         ("CFG_COMPONENT_BLOG_ENABLE", 0),
         ("SYS_APP_TASK_STACK_SIZE", 4096),
-        ("SYS_APP_TASK_PRIORITY", 15)
+        ("SYS_APP_TASK_PRIORITY", 15),
+        ("portasmHANDLE_INTERRUPT", "interrupt_entry"),
+        "LWIP_ENABLED",
+        "CONFIG_PLAT_AOS"
     ],
     CPPPATH=[
         join(FRAMEWORK_DIR, "components", "fs", "vfs"),
@@ -205,6 +208,7 @@ env.Append(
         join(FRAMEWORK_DIR, "components", "stage", "yloop", "include"),
         join(FRAMEWORK_DIR, "components", "stage", "yloop", "include"),
 
+        join(FRAMEWORK_DIR, "components", "security", "mbedtls", "include"),
         join(FRAMEWORK_DIR, "components", "security", "mbedtls", "include", "mbedtls"),
     ], 
     LINKFLAGS=[
@@ -266,7 +270,7 @@ libs = []
 
 libs.append(env.BuildLibrary(join("$BUILD_DIR", "freertos_riscv_ram"), join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "freertos_riscv_ram")))
 libs.append(env.BuildLibrary(join("$BUILD_DIR", "bl602"), join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602")))
-libs.append(env.BuildLibrary(join("$BUILD_DIR", "bl602_std"), join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std")))
+libs.append(env.BuildLibrary(join("$BUILD_DIR", "bl602_std"), join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std"), src_filter="+<*> -<atox.c>"))
 libs.append(env.BuildLibrary(join("$BUILD_DIR", "newlibc"), join(FRAMEWORK_DIR, "components", "platform", "soc", "libc", "newlibc")))
 
 libs.append(env.BuildLibrary(join("$BUILD_DIR", "bl602_hal"), join(FRAMEWORK_DIR, "components", "platform", "hosal", "bl602_hal")))
