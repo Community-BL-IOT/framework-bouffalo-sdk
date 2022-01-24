@@ -122,9 +122,9 @@ env.Append(
         "CONFIG_BT_SETTINGS_CCC_LAZY_LOADING",
         "CONFIG_BT_SETTINGS_USE_PRINTK",
         "CFG_BLE_STACK_DBG_PRINT",
-        ("BL_SDK_VER", f"{sdk['version']}"),
-        ("BL_SDK_PHY_VER", f"{sdk['phy_ver']}"),
-        ("BL_SDK_RF_VER", f"{sdk['rf_ver']}"),
+        ("BL_SDK_VER", "\\\"" + f"{sdk['version']}" + "\\\""),
+        ("BL_SDK_PHY_VER", "\\\"" + f"{sdk['phy_ver']}" + "\\\""),
+        ("BL_SDK_RF_VER", "\\\"" + f"{sdk['rf_ver']}" + "\\\""),
         ("BL_CHIP_NAME", "BL602"),
         "ARCH_RISCV",
         ("CONFIG_PSM_EASYFLASH_SIZE", 16384),
@@ -132,7 +132,9 @@ env.Append(
         "CFG_BLE_ENABLE",
         "CONF_USER_ENABLE_PSRAM",
         "CONF_USER_ENABLE_VFS_ROMFS",
-        ("CFG_COMPONENT_BLOG_ENABLE", 0)
+        ("CFG_COMPONENT_BLOG_ENABLE", 0),
+        ("SYS_APP_TASK_STACK_SIZE", 4096),
+        ("SYS_APP_TASK_PRIORITY", 15)
     ],
     CPPPATH=[
         join(FRAMEWORK_DIR, "components", "fs", "vfs"),
@@ -252,6 +254,7 @@ cpp_defines = env.Flatten(env.get("CPPDEFINES", []))
 
 # copy CCFLAGS to ASFLAGS (-x assembler-with-cpp mode)
 env.Append(ASFLAGS=env.get("CCFLAGS", [])[:])
+
 
 #
 # Target: Build Core Library
