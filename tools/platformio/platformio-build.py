@@ -21,6 +21,7 @@
 """
 
 import json
+import sys
 from os.path import isfile, isdir, join
 
 from platformio.util import get_systype
@@ -44,14 +45,22 @@ def get_arduino_board_id(board_config, mcu):
 
 board_id = get_arduino_board_id(board_config, mcu)
 
-# from platform.txt
-sdk = {"version": "release_bl_iot_sdk_1.6.32-104-g52434dce6-dirty",
-       "phy_ver": "a0_final-74-g478a1d5", "rf_ver": "0a5bc1d"}
+# Read sdk-data.json
+try:
+    SDKDATA = json.load(open(join(FRAMEWORK_DIR, 'sdk-data.json')))
+except ValueError as err:
+    sys.exit("Error reading " + join(FRAMEWORK_DIR, "sdk-data.json"))
 
 # Get build components
-include_components = env.GetProjectOption("include_components")
-COMPONENTS = include_components.split()
-print("COMPONENTS: " + ", ".join(COMPONENTS))
+try:
+    COMPONENTS = env.GetProjectOption("include_components").split()
+except:
+    COMPONENTS = SDKDATA['sdk']['defaults']['components']
+
+# Print Info
+print("BOUFFALO SDK:")
+print(" - Version: " + SDKDATA['sdk']['version'])
+print(" - Components: " + ", ".join(COMPONENTS))
 
 env.Append(
     ASFLAGS=["-x", "assembler-with-cpp"],
@@ -127,9 +136,9 @@ env.Append(
         "CONFIG_BT_SETTINGS_CCC_LAZY_LOADING",
         "CONFIG_BT_SETTINGS_USE_PRINTK",
         "CFG_BLE_STACK_DBG_PRINT",
-        ("BL_SDK_VER", "\\\"" + f"{sdk['version']}" + "\\\""),
-        ("BL_SDK_PHY_VER", "\\\"" + f"{sdk['phy_ver']}" + "\\\""),
-        ("BL_SDK_RF_VER", "\\\"" + f"{sdk['rf_ver']}" + "\\\""),
+        ("BL_SDK_VER", "\\\"" + f"{SDKDATA['sdk']['version']}" + "\\\""),
+        ("BL_SDK_PHY_VER", "\\\"" + f"{SDKDATA['sdk']['phy_ver']}" + "\\\""),
+        ("BL_SDK_RF_VER", "\\\"" + f"{SDKDATA['sdk']['rf_ver']}" + "\\\""),
         ("BL_CHIP_NAME", "BL602"),
         "ARCH_RISCV",
         ("CONFIG_PSM_EASYFLASH_SIZE", 16384),

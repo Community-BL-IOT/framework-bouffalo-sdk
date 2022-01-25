@@ -1,0 +1,27 @@
+{
+	"sdk": {
+		"version": "release_bl_iot_sdk_1.6.32-104-g52434dce6-dirty",
+		"phy_ver": "a0_final-74-g478a1d5",
+		"rf_ver": "0a5bc1d",
+		"defaults": {
+			"components": ["coredump", "bloop"]
+		}
+	},
+	"components": {
+		"coredump": {
+			"depends": ["bloop"],
+			"defines": [
+				{"def": "TESTVAR1"},
+				{"def": "TESTVAR2", "val": "somedata"}
+			],
+			"include_dirs": [],
+			"source_dirs": []
+		},
+		"bloop": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": [],
+			"source_dirs": []
+		}
+	}
+}
