@@ -143,6 +143,22 @@
 			"source_dir": "components/template",
 			"source_filter": ""
 		},
+		"bl602": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/stage/blfdt/inc"],
+			"include_dirs_priv": [],
+			"source_dir": "components/platform/soc/bl602/bl602",
+			"source_filter": ""
+		},
+		"bl602_std": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/stage/blfdt/inc"],
+			"include_dirs_priv": [],
+			"source_dir": "components/platform/soc/bl602/bl602_std",
+			"source_filter": "-<*>"
+		},
 		"blfdt": {
 			"depends": [],
 			"defines": [],
@@ -250,6 +266,7 @@
 			"source_filter": ""
 		},
 		"freertos_riscv_ram": {
+			"comment": "TODO: broken source filter",
 			"depends": [],
 			"defines": [],
 			"include_dirs": [
@@ -260,7 +277,12 @@
 			],
 			"include_dirs_priv": [],
 			"source_dir": "components/platform/soc/bl602/freertos_riscv_ram",
-			"source_filter": ""
+			"source_filter": [
+				"-<portable/MemMang/heap_1.c>",
+				"-<portable/MemMang/heap_2.c>",
+				"-<portable/MemMang/heap_3.c>",
+				"-<portable/MemMang/heap_4.c>"
+			]
 		},
 		"romfs": {
 			"depends": [],

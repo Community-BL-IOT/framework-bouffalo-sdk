@@ -195,7 +195,7 @@ for x in COMPONENTS:
     )
 
     # Build library
-    libs.append(env_c.BuildLibrary(join("$BUILD_DIR", x), join(FRAMEWORK_DIR, component['source_dir'], component['source_filter'])))
+    libs.append(env_c.BuildLibrary(join("$BUILD_DIR", x), join(FRAMEWORK_DIR, component['source_dir'], " ".join(component['source_filter']))))
 
 
 env.Prepend(LIBS=libs)
