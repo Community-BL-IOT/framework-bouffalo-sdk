@@ -163,8 +163,6 @@ env.Replace(LDSCRIPT_PATH=join(
 #
 # Process configuration flags
 #
-# This is unused?
-# cpp_defines = env.Flatten(env.get("CPPDEFINES", []))
 
 # copy CCFLAGS to ASFLAGS (-x assembler-with-cpp mode)
 env.Append(ASFLAGS=env.get("CCFLAGS", [])[:])
@@ -199,26 +197,6 @@ for x in COMPONENTS:
     # Build library
     libs.append(env_c.BuildLibrary(join("$BUILD_DIR", x), join(FRAMEWORK_DIR, component['source_dir'], component['source_filter'])))
 
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "freertos_riscv_ram"), join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "freertos_riscv_ram")))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "bl602"), join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602")))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "bl602_std"), join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std"), src_filter="+<*> -<bl602_std/Common>"))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "newlibc"), join(FRAMEWORK_DIR, "components", "platform", "soc", "libc", "newlibc")))
-
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "bl602_hal"), join(FRAMEWORK_DIR, "components", "platform", "hosal", "bl602_hal")))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "platform_hal"), join(FRAMEWORK_DIR, "components", "platform", "hosal", "platform_hal")))
-
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "vfs"), join(FRAMEWORK_DIR, "components", "platform", "fs", "vfs")))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "yloop"), join(FRAMEWORK_DIR, "components", "platform", "stage", "yloop")))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "utils"), join(FRAMEWORK_DIR, "components", "platform", "utils")))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "cli"), join(FRAMEWORK_DIR, "components", "platform", "stage", "cli")))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "blog"), join(FRAMEWORK_DIR, "components", "platform", "stage", "blog")))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "blog_testc"), join(FRAMEWORK_DIR, "components", "platform", "stage", "blog_testc")))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "coredump"), join(FRAMEWORK_DIR, "components", "platform", "stage", "coredump")))
-
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "bltime"), join(FRAMEWORK_DIR, "components", "platform", "sys", "bltime")))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "blfdt"), join(FRAMEWORK_DIR, "components", "platform", "stage", "blfdt")))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "blmtd"), join(FRAMEWORK_DIR, "components", "platform", "sys", "blmtd")))
-#libs.append(env.BuildLibrary(join("$BUILD_DIR", "bloop"), join(FRAMEWORK_DIR, "components", "platform", "sys", "bloop")))
 
 env.Prepend(LIBS=libs)
 
