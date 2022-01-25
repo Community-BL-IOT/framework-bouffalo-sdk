@@ -249,6 +249,19 @@
 			"source_dir": "components/libc/newlibc",
 			"source_filter": ""
 		},
+		"freertos_riscv_ram": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": [
+				"components/platform/soc/bl602/freertos_riscv_ram/config",
+				"components/platform/soc/bl602/freertos_riscv_ram/portable/GCC/RISC-V",
+				"components/platform/soc/bl602/freertos_riscv_ram/portable/GCC/RISC-V/chip_specific_extensions/RV32F_float_abi_single",
+				"components/platform/soc/bl602/freertos_riscv_ram/panic"
+			],
+			"include_dirs_priv": [],
+			"source_dir": "components/platform/soc/bl602/freertos_riscv_ram",
+			"source_filter": ""
+		},
 		"romfs": {
 			"depends": [],
 			"defines": [],
