@@ -14,7 +14,7 @@
 		"defaults": {
 			"components": ["coredump", "bloop"],
 			"defines": [
-			    "BFLB_BLE",
+				"BFLB_BLE",
 				"BFLB_CRYPT_HARDWARE",
 				"CFG_BLE",
 				"CFG_BLE_ENABLE",
@@ -168,6 +168,22 @@
 			"include_dirs_priv": [],
 			"source_dir": "",
 			"source_filter": ""
+		},
+		"romfs": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": [],
+			"include_dirs_priv": ["components/fs/romfs/include"],
+			"source_dir": "components/fs/romfs",
+			"source_filter": "-<genromfs>"
+		},
+		"vfs": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": [],
+			"include_dirs_priv": [],
+			"source_dir": "components/fs/vfs",
+			"source_filter": "-<posix>"
 		},
 		"utils": {
 			"conditionals": [
