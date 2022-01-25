@@ -137,21 +137,48 @@
 	"components": {
 		"coredump": {
 			"depends": [],
-			"defines": [
-				"TESTVAR1",
-				["TESTVAR2", "somedata"]
-			],
+			"defines": [],
 			"include_dirs": ["components/stage/coredump/inc"],
+			"include_dirs_priv": [],
 			"source_dir": "components/stage/coredump",
 			"source_filter": ""
 		},
 		"bloop": {
-			"depends": ["coredump"],
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/sys/bloop/bloop/include"],
+			"include_dirs_priv": [],
+			"source_dir": "components/sys/bloop/bloop",
+			"source_filter": ""
+		},
+		"hosal-omit": {
+			"conditionals": [
+				["ifndef", "CONFIG_USE_STD_DRIVER", "BL602_USE_HAL_DRIVER"],
+				["ifeq", "CONFIG_BT", 1, "CFG_BLE_ENABLE"],
+				["ifeq", "CONFIG_USE_XTAL32K", 1, "CFG_USE_XTAL32K"],
+				["ifeq", "CONF_ENABLE_COREDUMP", 1, "SYS_ENABLE_COREDUMP"],
+				["ifeq", "CONFIG_BL602_USE_1M_FLASH", 1, "CONF_BL602_USE_1M_FLASH"]
+			],
+			"depends": [],
+			"defines": [
+				"ARCH_RISCV",
+				"BFLB_CRYPT_HARDWARE"
+			],
+			"include_dirs": [],
+			"include_dirs_priv": [],
+			"source_dir": "",
+			"source_filter": ""
+		},
+		"utils": {
+			"conditionals": [
+				["ifeq", "CONFIG_UTIL_BASE64_ENABLE", 1, "UTILS_BASE64"]
+			],
+			"depends": [],
 			"defines": [],
 			"include_dirs": [
-				"components/sys/bloop/bloop",
 				"components/sys/bloop/bloop/include"
 			],
+			"include_dirs_priv": [],
 			"source_dir": 	"components/sys/bloop/bloop",
 			"source_filter": ""
 		}

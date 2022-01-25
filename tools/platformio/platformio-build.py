@@ -23,6 +23,7 @@
 
 import json
 import sys
+import time
 
 from os.path import isfile, isdir, join
 from platformio.util import get_systype
@@ -61,13 +62,14 @@ print(" - Components: " + ", ".join(COMPONENTS))
 #
 # Setup Default Build Env
 #
+include_dirs = []
+defines = SDKDATA['sdk']['defaults']['defines']
 
 # iterate through default include dirs and prepend framework path
-include_dirs = []
 for x in range(0, len(SDKDATA['sdk']['defaults']['include_dirs'])):
     include_dirs.append(join(FRAMEWORK_DIR, SDKDATA['sdk']['defaults']['include_dirs'][x]))
 
-# add package specific includes
+# add package specific includes and definitions
 for x in COMPONENTS:
     if x in SDKDATA['components']:
         include_dirs += SDKDATA['components'][x]['include_dirs']
@@ -92,7 +94,7 @@ env.Append(
         "-Wall",  # show warnings
         "-march=%s" % board_config.get("build.march"),
         "-mabi=%s" % board_config.get("build.mabi"),
-
+        #"-nostdlib",
         "-gdwarf", 
         "-ffunction-sections",
         "-fdata-sections",
@@ -103,7 +105,7 @@ env.Append(
         "--param",
         "max-inline-insns-single=500",
     ],
-    CPPDEFINES = SDKDATA['sdk']['defaults']['defines'] + [
+    CPPDEFINES = defines + [
         "ARCH_RISCV",
         ("BL_SDK_VER", "\\\"" + f"{SDKDATA['sdk']['version']}" + "\\\""),
         ("BL_SDK_PHY_VER", "\\\"" + f"{SDKDATA['sdk']['phy_ver']}" + "\\\""),
@@ -112,8 +114,12 @@ env.Append(
         bl_chipname,
         ("BL_CHIP_NAME", bl_chipname),
         ("CONFIG_PSM_EASYFLASH_SIZE", 16384),
+        ("__FILENAME__", "\\\"fixme.c\\\""),
+        ("BFLB_COREDUMP_BINARY_ID", time.time())
     ],
-    CPPPATH=include_dirs,
+    CPPPATH = include_dirs + [
+        #join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "Common", "libc", "inc")
+    ],
     LINKFLAGS=[
         "-Os",
         "-march=%s" % board_config.get("build.march"),
