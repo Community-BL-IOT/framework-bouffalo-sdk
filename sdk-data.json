@@ -58,7 +58,7 @@
 				"LWIP_ENABLED",
 				"OPTIMIZE_DATA_EVT_FLOW_FROM_CONTROLLER",
 				["portasmHANDLE_INTERRUPT", "interrupt_entry"],
-		        ["SYS_APP_TASK_STACK_SIZE", 4096],
+				["SYS_APP_TASK_STACK_SIZE", 4096],
 				["SYS_APP_TASK_PRIORITY", 15]
 			],
 			"include_dirs": [

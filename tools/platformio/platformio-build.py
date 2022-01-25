@@ -111,12 +111,7 @@ env.Append(
         ("F_CPU", "$BOARD_F_CPU"),
         bl_chipname,
         ("BL_CHIP_NAME", bl_chipname),
-        ("CFG_CON", 2),
-        ("CFG_BLE_TX_BUFF_DATA", 2),
         ("CONFIG_PSM_EASYFLASH_SIZE", 16384),
-        ("CFG_COMPONENT_BLOG_ENABLE", 0),
-
-        ("portasmHANDLE_INTERRUPT", "interrupt_entry"),
     ],
     CPPPATH=include_dirs,
     LINKFLAGS=[
