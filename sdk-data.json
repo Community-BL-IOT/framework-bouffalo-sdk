@@ -15,7 +15,8 @@
 				{"def": "TESTVAR2", "val": "somedata"}
 			],
 			"include_dirs": ["components/stage/coredump/inc"],
-			"source_dirs": ["components/stage/coredump"]
+			"source_dir": "components/stage/coredump",
+			"source_filter": ""
 		},
 		"bloop": {
 			"depends": ["coredump"],
@@ -24,9 +25,8 @@
 				"components/sys/bloop/bloop",
 				"components/sys/bloop/bloop/include"
 			],
-			"source_dirs": [
-				"components/sys/bloop/bloop"
-			]
+			"source_dir": 	"components/sys/bloop/bloop",
+			"source_filter": ""
 		}
 	}
 }

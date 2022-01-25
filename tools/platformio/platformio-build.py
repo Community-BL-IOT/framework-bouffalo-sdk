@@ -36,15 +36,6 @@ board_name = env.subst("$BOARD")
 FRAMEWORK_DIR = platform.get_package_dir("framework-bouffalo-sdk")
 assert isdir(FRAMEWORK_DIR)
 
-mcu = board_config.get("build.mcu", "")
-upload_protocol = env.subst("$UPLOAD_PROTOCOL")
-
-def get_arduino_board_id(board_config, mcu):
-    if env.subst("$BOARD") == "pinecone":
-        return "PINECONE_EVB"
-
-board_id = get_arduino_board_id(board_config, mcu)
-
 # Read sdk-data.json
 try:
     SDKDATA = json.load(open(join(FRAMEWORK_DIR, 'sdk-data.json')))
@@ -62,6 +53,7 @@ print("BOUFFALO SDK:")
 print(" - Version: " + SDKDATA['sdk']['version'])
 print(" - Components: " + ", ".join(COMPONENTS))
 
+# Setup Default Build Env
 env.Append(
     ASFLAGS=["-x", "assembler-with-cpp"],
     CFLAGS=["-std=gnu99"],
@@ -256,7 +248,6 @@ env.Append(
 #
 # Linker requires preprocessing with correct RAM|ROM sizes
 #
-
 env.Replace(LDSCRIPT_PATH=join(
                     FRAMEWORK_DIR,
                     "components",
@@ -272,18 +263,40 @@ env.Replace(LDSCRIPT_PATH=join(
 #
 # Process configuration flags
 #
-
 cpp_defines = env.Flatten(env.get("CPPDEFINES", []))
 
 # copy CCFLAGS to ASFLAGS (-x assembler-with-cpp mode)
 env.Append(ASFLAGS=env.get("CCFLAGS", [])[:])
 
-
 #
 # Target: Build Core Library
 #
-
 libs = []
+
+# Iterate through components definitions
+def find_component_conf(name):
+    result = None
+    for component_x in SDKDATA['components']:
+        if name == component_x:
+            result = SDKDATA['components'][component_x]
+            break
+    return result
+
+# Iterate through included components
+for x in COMPONENTS:
+    component = find_component_conf(x)
+    if component is None:
+        print("***WARNING: Undefined component (" + x + ")")
+        continue
+
+    # Clone build env
+    env_c = env.Clone()
+
+    # Set up build env
+    # TODO
+
+    # Build library
+    libs.append(env.BuildLibrary(join("$BUILD_DIR", x), join(FRAMEWORK_DIR, component['source_dir'], component['source_filter'])))
 
 #libs.append(env.BuildLibrary(join("$BUILD_DIR", "freertos_riscv_ram"), join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "freertos_riscv_ram")))
 #libs.append(env.BuildLibrary(join("$BUILD_DIR", "bl602"), join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602")))
@@ -307,3 +320,4 @@ libs = []
 #libs.append(env.BuildLibrary(join("$BUILD_DIR", "bloop"), join(FRAMEWORK_DIR, "components", "platform", "sys", "bloop")))
 
 env.Prepend(LIBS=libs)
+
