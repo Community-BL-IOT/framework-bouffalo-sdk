@@ -9,19 +9,24 @@
 	},
 	"components": {
 		"coredump": {
-			"depends": ["bloop"],
+			"depends": [],
 			"defines": [
 				{"def": "TESTVAR1"},
 				{"def": "TESTVAR2", "val": "somedata"}
 			],
-			"include_dirs": [],
-			"source_dirs": []
+			"include_dirs": ["components/stage/coredump/inc"],
+			"source_dirs": ["components/stage/coredump"]
 		},
 		"bloop": {
-			"depends": [],
+			"depends": ["coredump"],
 			"defines": [],
-			"include_dirs": [],
-			"source_dirs": []
+			"include_dirs": [
+				"components/sys/bloop/bloop",
+				"components/sys/bloop/bloop/include"
+			],
+			"source_dirs": [
+				"components/sys/bloop/bloop"
+			]
 		}
 	}
 }
