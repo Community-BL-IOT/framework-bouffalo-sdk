@@ -152,6 +152,7 @@
 			"source_filter": ""
 		},
 		"bl602_std": {
+			"comment": "TODO: Broken source filter",
 			"depends": [],
 			"defines": [],
 			"include_dirs": ["components/stage/blfdt/inc"],
@@ -223,7 +224,7 @@
 			"source_dir": "components/stage/coredump",
 			"source_filter": ""
 		},
-		"hosal-omit": {
+		"hosal-BL602": {
 			"conditionals": [
 				["ifndef", "CONFIG_USE_STD_DRIVER", "BL602_USE_HAL_DRIVER"],
 				["ifeq", "CONFIG_BT", 1, "CFG_BLE_ENABLE"],
@@ -236,9 +237,24 @@
 				"ARCH_RISCV",
 				"BFLB_CRYPT_HARDWARE"
 			],
-			"include_dirs": [],
+			"include_dirs": [
+				"components/platform/hosal/bl602_hal",
+				"components/platform/hosal/platform_hal"
+			],
 			"include_dirs_priv": [],
-			"source_dir": "",
+			"source_dir": "components/platform/hosal",
+			"source_filter": [
+				"+<bl602_hal>",
+				"+<platform_hal>"
+			]
+		},
+		"hosal-BL702": {
+			"comment": "Not yet supported",
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/template/include"],
+			"include_dirs_priv": [],
+			"source_dir": "components/template",
 			"source_filter": ""
 		},
 		"looprt": {

@@ -70,9 +70,13 @@ for x in range(0, len(SDKDATA['sdk']['defaults']['include_dirs'])):
     include_dirs.append(join(FRAMEWORK_DIR, SDKDATA['sdk']['defaults']['include_dirs'][x]))
 
 # add package specific includes and definitions
-for x in COMPONENTS:
-    if x in SDKDATA['components']:
-        include_dirs += SDKDATA['components'][x]['include_dirs']
+for i in range(len(COMPONENTS)):
+    # select specific hosal build
+    if COMPONENTS[i] == "hosal":
+        COMPONENTS[i] = "hosal-" + bl_chipname
+
+    if COMPONENTS[i] in SDKDATA['components']:
+        include_dirs += SDKDATA['components'][COMPONENTS[i]]['include_dirs']
 
 env.Append(
     ASFLAGS=["-x", "assembler-with-cpp"],
@@ -193,6 +197,7 @@ for x in COMPONENTS:
     env_c.Append(
         CPPDEFINES=component['defines']
     )
+    # TODO: Evaluate conditionals
 
     # Build library
     libs.append(env_c.BuildLibrary(join("$BUILD_DIR", x), join(FRAMEWORK_DIR, component['source_dir'], " ".join(component['source_filter']))))
