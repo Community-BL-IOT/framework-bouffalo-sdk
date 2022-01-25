@@ -43,6 +43,9 @@ try:
 except ValueError as err:
     sys.exit("Error reading " + join(FRAMEWORK_DIR, "sdk-data.json"))
 
+# Determine chip name
+bl_chipname = SDKDATA['boards'][board_name]['chipname']
+
 # Get build components
 try:
     COMPONENTS = env.GetProjectOption("include_components").split()
@@ -52,6 +55,7 @@ except:
 # Print Info
 print("BOUFFALO SDK:")
 print(" - Version: " + SDKDATA['sdk']['version'])
+print(" - Chip: " + bl_chipname)
 print(" - Components: " + ", ".join(COMPONENTS))
 
 #
@@ -100,65 +104,19 @@ env.Append(
         "max-inline-insns-single=500",
     ],
     CPPDEFINES = SDKDATA['sdk']['defaults']['defines'] + [
-        ("F_CPU", "$BOARD_F_CPU"),
-        "BL602",
-        "CONF_USER_ENABLE_PSRAM",
-        "configUSE_TICKLESS_IDLE=0",
-        "CFG_FREERTOS",
         "ARCH_RISCV",
-        "BL602",
-        "CONFIG_SET_TX_PWR",
-        "CFG_BLE_ENABLE",
-        "BFLB_BLE",
-        "CFG_BLE",
-        "CFG_SLEEP",
-        "OPTIMIZE_DATA_EVT_FLOW_FROM_CONTROLLER",
-        ("CFG_CON", 2),
-        ("CFG_BLE_TX_BUFF_DATA", 2),
-        "CONFIG_BT_ALLROLES",
-        "CONFIG_BT_CENTRAL",
-        "CONFIG_BT_OBSERVER",
-        "CONFIG_BT_PERIPHERAL",
-        "CONFIG_BT_BROADCASTER",
-        "CONFIG_BT_L2CAP_DYNAMIC_CHANNEL",
-        "CONFIG_BT_GATT_CLIENT",
-        "CONFIG_BT_CONN",
-        "CONFIG_BT_GATT_DIS_PNP",
-        "CONFIG_BT_GATT_DIS_SERIAL_NUMBER",
-        "CONFIG_BT_GATT_DIS_FW_REV",
-        "CONFIG_BT_GATT_DIS_HW_REV",
-        "CONFIG_BT_GATT_DIS_SW_REV",
-        "CONFIG_BT_ECC",
-        "CONFIG_BT_GATT_DYNAMIC_DB",
-        "CONFIG_BT_GATT_SERVICE_CHANGED",
-        "CONFIG_BT_KEYS_OVERWRITE_OLDEST",
-        "CONFIG_BT_KEYS_SAVE_AGING_COUNTER_ON_P",
-        "CONFIG_BT_GAP_PERIPHERAL_PREF_PARAMS",
-        "CONFIG_BT_BONDABLE",
-        "CONFIG_BT_HCI_VS_EVT_USER",
-        "CONFIG_BT_ASSERT",
-        "CONFIG_BT_SMP",
-        "CONFIG_BT_SIGNING",
-        "CONFIG_BT_SETTINGS_CCC_LAZY_LOADING",
-        "CONFIG_BT_SETTINGS_USE_PRINTK",
-        "CFG_BLE_STACK_DBG_PRINT",
         ("BL_SDK_VER", "\\\"" + f"{SDKDATA['sdk']['version']}" + "\\\""),
         ("BL_SDK_PHY_VER", "\\\"" + f"{SDKDATA['sdk']['phy_ver']}" + "\\\""),
         ("BL_SDK_RF_VER", "\\\"" + f"{SDKDATA['sdk']['rf_ver']}" + "\\\""),
-        ("BL_CHIP_NAME", "BL602"),
-        "ARCH_RISCV",
+        ("F_CPU", "$BOARD_F_CPU"),
+        bl_chipname,
+        ("BL_CHIP_NAME", bl_chipname),
+        ("CFG_CON", 2),
+        ("CFG_BLE_TX_BUFF_DATA", 2),
         ("CONFIG_PSM_EASYFLASH_SIZE", 16384),
-        ("configUSE_TICKLESS_IDLE", 0),
-        "CFG_BLE_ENABLE",
-        "CONF_USER_ENABLE_PSRAM",
-        "CONF_USER_ENABLE_VFS_ROMFS",
         ("CFG_COMPONENT_BLOG_ENABLE", 0),
-        ("SYS_APP_TASK_STACK_SIZE", 4096),
-        ("SYS_APP_TASK_PRIORITY", 15),
+
         ("portasmHANDLE_INTERRUPT", "interrupt_entry"),
-        "LWIP_ENABLED",
-        "CONFIG_PLAT_AOS",
-        "BFLB_CRYPT_HARDWARE"
     ],
     CPPPATH=include_dirs,
     LINKFLAGS=[

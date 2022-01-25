@@ -1,4 +1,12 @@
 {
+	"boards": {
+		"pinecone": {
+			"chipname": "BL602"
+		},
+		"DT-BL10": {
+			"chipname": "BL602"
+		}
+	},
 	"sdk": {
 		"version": "release_bl_iot_sdk_1.6.32-104-g52434dce6-dirty",
 		"phy_ver": "a0_final-74-g478a1d5",
@@ -6,8 +14,52 @@
 		"defaults": {
 			"components": ["coredump", "bloop"],
 			"defines": [
-				"TESTGLOB1",
-				["TESTGLOB2", "someglobdata"]
+			    "BFLB_BLE",
+				"BFLB_CRYPT_HARDWARE",
+				"CFG_BLE",
+				"CFG_BLE_ENABLE",
+				"CFG_BLE_STACK_DBG_PRINT",
+				["CFG_BLE_TX_BUFF_DATA", 2],
+				["CFG_COMPONENT_BLOG_ENABLE", 0],
+				["CFG_CON", 2],
+				"CFG_FREERTOS",
+				"CFG_SLEEP",
+				"CONF_USER_ENABLE_PSRAM",
+				"CONF_USER_ENABLE_VFS_ROMFS",
+				"CONFIG_BT_ALLROLES",
+				"CONFIG_BT_CENTRAL",
+				"CONFIG_BT_OBSERVER",
+				"CONFIG_BT_PERIPHERAL",
+				"CONFIG_BT_BROADCASTER",
+				"CONFIG_BT_L2CAP_DYNAMIC_CHANNEL",
+				"CONFIG_BT_GATT_CLIENT",
+				"CONFIG_BT_CONN",
+				"CONFIG_BT_GATT_DIS_PNP",
+				"CONFIG_BT_GATT_DIS_SERIAL_NUMBER",
+				"CONFIG_BT_GATT_DIS_FW_REV",
+				"CONFIG_BT_GATT_DIS_HW_REV",
+				"CONFIG_BT_GATT_DIS_SW_REV",
+				"CONFIG_BT_ECC",
+				"CONFIG_BT_GATT_DYNAMIC_DB",
+				"CONFIG_BT_GATT_SERVICE_CHANGED",
+				"CONFIG_BT_KEYS_OVERWRITE_OLDEST",
+				"CONFIG_BT_KEYS_SAVE_AGING_COUNTER_ON_P",
+				"CONFIG_BT_GAP_PERIPHERAL_PREF_PARAMS",
+				"CONFIG_BT_BONDABLE",
+				"CONFIG_BT_HCI_VS_EVT_USER",
+				"CONFIG_BT_ASSERT",
+				"CONFIG_BT_SMP",
+				"CONFIG_BT_SIGNING",
+				"CONFIG_BT_SETTINGS_CCC_LAZY_LOADING",
+				"CONFIG_BT_SETTINGS_USE_PRINTK",
+				"CONFIG_PLAT_AOS",
+				"CONFIG_SET_TX_PWR",
+				["configUSE_TICKLESS_IDLE", 0],
+				"LWIP_ENABLED",
+				"OPTIMIZE_DATA_EVT_FLOW_FROM_CONTROLLER",
+				["portasmHANDLE_INTERRUPT", "interrupt_entry"],
+		        ["SYS_APP_TASK_STACK_SIZE", 4096],
+				["SYS_APP_TASK_PRIORITY", 15]
 			],
 			"include_dirs": [
 				"components/fs/vfs",
