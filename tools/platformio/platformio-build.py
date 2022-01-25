@@ -1,4 +1,5 @@
 # Copyright 2021-present Maximilian Gerahrdt <maximilian.gerhardt@rub.de>
+#                        Joe Saiko <joe@saiko.dev>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -53,7 +54,20 @@ print("BOUFFALO SDK:")
 print(" - Version: " + SDKDATA['sdk']['version'])
 print(" - Components: " + ", ".join(COMPONENTS))
 
+#
 # Setup Default Build Env
+#
+
+# iterate through default include dirs and prepend framework path
+include_dirs = []
+for x in range(0, len(SDKDATA['sdk']['defaults']['include_dirs'])):
+    include_dirs.append(join(FRAMEWORK_DIR, SDKDATA['sdk']['defaults']['include_dirs'][x]))
+
+# add package specific includes
+for x in COMPONENTS:
+    if x in SDKDATA['components']:
+        include_dirs += SDKDATA['components'][x]['include_dirs']
+
 env.Append(
     ASFLAGS=["-x", "assembler-with-cpp"],
     CFLAGS=["-std=gnu99"],
@@ -85,7 +99,7 @@ env.Append(
         "--param",
         "max-inline-insns-single=500",
     ],
-    CPPDEFINES=[
+    CPPDEFINES = SDKDATA['sdk']['defaults']['defines'] + [
         ("F_CPU", "$BOARD_F_CPU"),
         "BL602",
         "CONF_USER_ENABLE_PSRAM",
@@ -146,80 +160,7 @@ env.Append(
         "CONFIG_PLAT_AOS",
         "BFLB_CRYPT_HARDWARE"
     ],
-    CPPPATH=[
-        join(FRAMEWORK_DIR, "components", "fs", "vfs"),
-        join(FRAMEWORK_DIR, "components", "fs", "vfs", "include"),
-        join(FRAMEWORK_DIR, "components", "fs", "vfs", "posix", "include"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602", "include"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "include"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "StdDriver", "Inc"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "Device", "Bouffalo", "BL602", "Peripherals"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "RISCV", "Device", "Bouffalo", "BL602", "Startup"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "RISCV", "Core", "Include"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "Include"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "Common", "platform_print"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "Common", "soft_crc"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "Common", "partition"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "Common", "xz"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "Common", "cipher_suite", "inc"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "Common", "ring_buffer"),
-        join(FRAMEWORK_DIR, "components", "stage", "blfdt"),
-        join(FRAMEWORK_DIR, "components", "stage", "blfdt", "include"),
-        join(FRAMEWORK_DIR, "components", "stage", "blfdt", "inc"),
-        join(FRAMEWORK_DIR, "components", "sys", "blmtd"),
-        join(FRAMEWORK_DIR, "components", "sys", "blmtd", "include"),
-        join(FRAMEWORK_DIR, "components", "sys", "blmtd", "include"),
-        join(FRAMEWORK_DIR, "components", "stage", "blog"),
-        join(FRAMEWORK_DIR, "components", "stage", "blog", "include"),
-        join(FRAMEWORK_DIR, "components", "stage", "blog"),
-        join(FRAMEWORK_DIR, "components", "stage", "blog_testc"),
-        join(FRAMEWORK_DIR, "components", "stage", "blog_testc", "include"),
-        join(FRAMEWORK_DIR, "components", "stage", "blog_testc"),
-        join(FRAMEWORK_DIR, "components", "sys", "bloop", "bloop"),
-        join(FRAMEWORK_DIR, "components", "sys", "bloop", "bloop", "include"),
-        join(FRAMEWORK_DIR, "components", "sys", "bloop", "bloop", "include"),
-        join(FRAMEWORK_DIR, "components", "sys", "bltime"),
-        join(FRAMEWORK_DIR, "components", "sys", "bltime", "include"),
-        join(FRAMEWORK_DIR, "components", "sys", "bltime", "include"),
-        join(FRAMEWORK_DIR, "components", "stage", "cli"),
-        join(FRAMEWORK_DIR, "components", "stage", "cli", "include"),
-        join(FRAMEWORK_DIR, "components", "stage", "cli", "cli", "include"),
-        join(FRAMEWORK_DIR, "components", "stage", "coredump"),
-        join(FRAMEWORK_DIR, "components", "stage", "coredump", "include"),
-        join(FRAMEWORK_DIR, "components", "stage", "coredump", "inc"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "freertos_riscv_ram"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "freertos_riscv_ram", "include"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "freertos_riscv_ram", "config"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "freertos_riscv_ram", "portable", "GCC", "RISC-V"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "freertos_riscv_ram", "portable", "GCC", "RISC-V", "chip_specific_extensions", "RV32F_float_abi_single"),
-        join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "freertos_riscv_ram", "panic"),
-        join(FRAMEWORK_DIR, "components", "platform", "hosal"),
-        join(FRAMEWORK_DIR, "components", "platform", "hosal", "include"),
-        join(FRAMEWORK_DIR, "components", "platform", "hosal", "bl602_hal"),
-        join(FRAMEWORK_DIR, "components", "platform", "hosal", "platform_hal"),
-        join(FRAMEWORK_DIR, "components", "platform", "hosal", "include"),
-        join(FRAMEWORK_DIR, "components", "sys", "bloop", "looprt"),
-        join(FRAMEWORK_DIR, "components", "sys", "bloop", "looprt", "include"),
-        join(FRAMEWORK_DIR, "components", "sys", "bloop", "loopset"),
-        join(FRAMEWORK_DIR, "components", "sys", "bloop", "loopset", "include"),
-        join(FRAMEWORK_DIR, "components", "libc", "newlibc"),
-        join(FRAMEWORK_DIR, "components", "libc", "newlibc", "include"),
-        join(FRAMEWORK_DIR, "components", "libc", "newlibc"),
-        join(FRAMEWORK_DIR, "components", "fs", "romfs"),
-        join(FRAMEWORK_DIR, "components", "fs", "romfs", "include"),
-        join(FRAMEWORK_DIR, "components", "utils"),
-        join(FRAMEWORK_DIR, "components", "utils", "include"),
-        join(FRAMEWORK_DIR, "components", "stage", "yloop"),
-        join(FRAMEWORK_DIR, "components", "stage", "yloop", "include"),
-        join(FRAMEWORK_DIR, "components", "stage", "yloop", "include"),
-
-        #join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602_std", "bl602_std", "Common", "libc", "inc"),
-
-        join(FRAMEWORK_DIR, "components", "security", "mbedtls", "include"),
-        join(FRAMEWORK_DIR, "components", "security", "mbedtls", "include", "mbedtls"),
-    ], 
+    CPPPATH=include_dirs,
     LINKFLAGS=[
         "-Os",
         "-march=%s" % board_config.get("build.march"),
