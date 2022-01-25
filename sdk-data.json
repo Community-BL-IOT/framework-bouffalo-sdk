@@ -135,12 +135,44 @@
 		}
 	},
 	"components": {
-		"coredump": {
+		"template": {
 			"depends": [],
 			"defines": [],
-			"include_dirs": ["components/stage/coredump/inc"],
+			"include_dirs": ["components/template/include"],
 			"include_dirs_priv": [],
-			"source_dir": "components/stage/coredump",
+			"source_dir": "components/template",
+			"source_filter": ""
+		},
+		"blfdt": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/stage/blfdt/inc"],
+			"include_dirs_priv": [],
+			"source_dir": "components/stage/blfdt",
+			"source_filter": ""
+		},
+		"blmtd": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/sys/blmtd/include"],
+			"include_dirs_priv": [],
+			"source_dir": "components/sys/blmtd",
+			"source_filter": ""
+		},
+		"blog": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/stage/blog"],
+			"include_dirs_priv": [],
+			"source_dir": "components/stage/blog",
+			"source_filter": ""
+		},
+		"blog_testc": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/stage/blog_testc"],
+			"include_dirs_priv": [],
+			"source_dir": "components/stage/blog_testc",
 			"source_filter": ""
 		},
 		"bloop": {
@@ -149,6 +181,30 @@
 			"include_dirs": ["components/sys/bloop/bloop/include"],
 			"include_dirs_priv": [],
 			"source_dir": "components/sys/bloop/bloop",
+			"source_filter": ""
+		},
+		"bltime": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/sys/bltime/include"],
+			"include_dirs_priv": [],
+			"source_dir": "components/sys/bltime",
+			"source_filter": ""
+		},
+		"cli": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/stage/cli/cli/include"],
+			"include_dirs_priv": [],
+			"source_dir": "components/stage/cli/cli",
+			"source_filter": ""
+		},
+		"coredump": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/stage/coredump/inc"],
+			"include_dirs_priv": [],
+			"source_dir": "components/stage/coredump",
 			"source_filter": ""
 		},
 		"hosal-omit": {
@@ -169,6 +225,30 @@
 			"source_dir": "",
 			"source_filter": ""
 		},
+		"looprt": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/sys/bloop/looprt/include"],
+			"include_dirs_priv": [],
+			"source_dir": "components/sys/bloop/looprt/src",
+			"source_filter": ""
+		},
+		"loopset": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/sys/bloop/loopset/include"],
+			"include_dirs_priv": [],
+			"source_dir": "components/sys/bloop/loopset/src",
+			"source_filter": "-<loopset_i2c.c>"
+		},
+		"newlibc": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/libc/newlibc"],
+			"include_dirs_priv": [],
+			"source_dir": "components/libc/newlibc",
+			"source_filter": ""
+		},
 		"romfs": {
 			"depends": [],
 			"defines": [],
@@ -176,14 +256,6 @@
 			"include_dirs_priv": ["components/fs/romfs/include"],
 			"source_dir": "components/fs/romfs",
 			"source_filter": "-<genromfs>"
-		},
-		"vfs": {
-			"depends": [],
-			"defines": [],
-			"include_dirs": [],
-			"include_dirs_priv": [],
-			"source_dir": "components/fs/vfs",
-			"source_filter": "-<posix>"
 		},
 		"utils": {
 			"conditionals": [
@@ -196,6 +268,22 @@
 			],
 			"include_dirs_priv": [],
 			"source_dir": 	"components/sys/bloop/bloop",
+			"source_filter": ""
+		},
+		"vfs": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": [],
+			"include_dirs_priv": [],
+			"source_dir": "components/fs/vfs",
+			"source_filter": "-<posix>"
+		},
+		"yloop": {
+			"depends": [],
+			"defines": [],
+			"include_dirs": ["components/stage/yloop/include"],
+			"include_dirs_priv": [],
+			"source_dir": "components/stage/yloop/src",
 			"source_filter": ""
 		}
 	}
