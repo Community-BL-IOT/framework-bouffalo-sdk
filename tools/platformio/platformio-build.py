@@ -23,12 +23,12 @@
 
 import json
 import sys
+
 from os.path import isfile, isdir, join
-
 from platformio.util import get_systype
-
 from SCons.Script import COMMAND_LINE_TARGETS, DefaultEnvironment
 
+# Init
 env = DefaultEnvironment()
 platform = env.PioPlatform()
 board_config = env.BoardConfig()
@@ -204,7 +204,8 @@ env.Replace(LDSCRIPT_PATH=join(
 #
 # Process configuration flags
 #
-cpp_defines = env.Flatten(env.get("CPPDEFINES", []))
+# This is unused?
+# cpp_defines = env.Flatten(env.get("CPPDEFINES", []))
 
 # copy CCFLAGS to ASFLAGS (-x assembler-with-cpp mode)
 env.Append(ASFLAGS=env.get("CCFLAGS", [])[:])
@@ -223,21 +224,21 @@ def find_component_conf(name):
             break
     return result
 
-# Iterate through included components
+# Iterate through included components and build libraries
 for x in COMPONENTS:
     component = find_component_conf(x)
     if component is None:
         print("***WARNING: Undefined component (" + x + ")")
         continue
 
-    # Clone build env
+    # Clone and set up component build env
     env_c = env.Clone()
-
-    # Set up build env
-    # TODO
+    env_c.Append(
+        CPPDEFINES=component['defines']
+    )
 
     # Build library
-    libs.append(env.BuildLibrary(join("$BUILD_DIR", x), join(FRAMEWORK_DIR, component['source_dir'], component['source_filter'])))
+    libs.append(env_c.BuildLibrary(join("$BUILD_DIR", x), join(FRAMEWORK_DIR, component['source_dir'], component['source_filter'])))
 
 #libs.append(env.BuildLibrary(join("$BUILD_DIR", "freertos_riscv_ram"), join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "freertos_riscv_ram")))
 #libs.append(env.BuildLibrary(join("$BUILD_DIR", "bl602"), join(FRAMEWORK_DIR, "components", "platform", "soc", "bl602", "bl602")))
