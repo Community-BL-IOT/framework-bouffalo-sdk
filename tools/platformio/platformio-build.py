@@ -199,8 +199,14 @@ for x in COMPONENTS:
     )
     # TODO: Evaluate conditionals
 
+    # Eval source filter
+    if isinstance(component['source_filter'], list):
+        source_filter = " ".join(component['source_filter'])
+    else:
+        source_filter = component['source_filter']
+
     # Build library
-    libs.append(env_c.BuildLibrary(join("$BUILD_DIR", x), join(FRAMEWORK_DIR, component['source_dir'], " ".join(component['source_filter']))))
+    libs.append(env_c.BuildLibrary(join("$BUILD_DIR", x), join(FRAMEWORK_DIR, component['source_dir']), source_filter))
 
 
 env.Prepend(LIBS=libs)
