@@ -142,10 +142,12 @@ env.Append(
         "m",
         "gcc",
         "stdc++",
-        "wifi"
+        "wifi",
+        "blecontroller_602_std"
     ],
     LIBPATH=[
         join(FRAMEWORK_DIR, "components", "network", "wifi", "lib"),
+        join(FRAMEWORK_DIR, "components", "network", "ble", "blecontroller_602_std", "lib"),
     ]
 )
 
@@ -192,10 +194,16 @@ for x in COMPONENTS:
         print("***WARNING: Undefined component (" + x + ")")
         continue
 
+    # iterate through default include dirs and prepend framework path
+    include_dirs_priv = []
+    for y in range(0, len(component['include_dirs_priv'])):
+        include_dirs_priv.append(join(FRAMEWORK_DIR, component['include_dirs_priv'][y]))
+
     # Clone and set up component build env
     env_c = env.Clone()
     env_c.Append(
-        CPPDEFINES=component['defines']
+        CPPDEFINES=component['defines'],
+        CPPPATH=include_dirs_priv
     )
     # TODO: Evaluate conditionals
 

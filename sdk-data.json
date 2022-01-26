@@ -153,12 +153,66 @@
 		},
 		"bl602_std": {
 			"comment": "TODO: Broken source filter",
+			"conditionals": {
+				"ifeq CONFIG_BL602_USE_ROM_DRIVER 0": {
+					"include_dirs_priv": [
+						"bl602_std/StdDriver/Src/bl602_sf_ctrl.c",
+						"bl602_std/StdDriver/Src/bl602_sflash.c",
+						"bl602_std/StdDriver/Src/bl602_sflash_ext.c",
+						"bl602_std/StdDriver/Src/bl602_xip_sflash.c",
+						"bl602_std/StdDriver/Src/bl602_sf_cfg.c",
+						"bl602_std/StdDriver/Src/bl602_sf_cfg_ext.c",
+						"bl602_std/StdDriver/Src/bl602_xip_sflash_ext.c"
+					]
+				}
+			},
 			"depends": [],
 			"defines": [],
-			"include_dirs": ["components/stage/blfdt/inc"],
+			"include_dirs": [
+				"bl602_std/StdDriver/Inc",
+				"bl602_std/Device/Bouffalo/BL602/Peripherals",
+				"bl602_std/RISCV/Device/Bouffalo/BL602/Startup",
+				"bl602_std/RISCV/Core/Include",
+				"bl602_std/Include",
+				"bl602_std/Common/platform_print",
+				"bl602_std/Common/soft_crc",
+				"bl602_std/Common/partition",
+				"bl602_std/Common/xz",
+				"bl602_std/Common/cipher_suite/inc",
+				"bl602_std/Common/ring_buffer"
+			],
 			"include_dirs_priv": [],
 			"source_dir": "components/platform/soc/bl602/bl602_std",
-			"source_filter": "-<*>"
+			"source_filter": [
+				"-<*>",
+				"+<bl602_std/StdDriver/Src/bl602_uart.c>",
+				"+<bl602_std/StdDriver/Src/bl602_adc.c>",
+				"+<bl602_std/StdDriver/Src/bl602_sec_eng.c>",
+				"+<bl602_std/StdDriver/Src/bl602_dma.c>",
+				"+<bl602_std/StdDriver/Src/bl602_common.c>",
+				"+<bl602_std/StdDriver/Src/bl602_glb.c>",
+				"+<bl602_std/StdDriver/Src/bl602_hbn.c>",
+				"+<bl602_std/StdDriver/Src/bl602_timer.c>",
+				"+<bl602_std/StdDriver/Src/bl602_aon.c>",
+				"+<bl602_std/StdDriver/Src/bl602_pds.c>",
+				"+<bl602_std/StdDriver/Src/bl602_pwm.c>",
+				"+<bl602_std/StdDriver/Src/bl602_l1c.c>",
+				"+<bl602_std/StdDriver/Src/bl602_ef_ctrl.c>",
+				"+<bl602_std/StdDriver/Src/bl602_ef_ctrl.c>",
+				"+<bl602_std/StdDriver/Src/bl602_mfg_efuse.c>",
+				"+<bl602_std/StdDriver/Src/bl602_mfg_flash.c>",
+				"+<bl602_std/StdDriver/Src/bl602_mfg_media.c>",
+				"+<bl602_std/StdDriver/Src/bl602_dac.c>",
+				"+<bl602_std/StdDriver/Src/bl602_ir.c>",
+				"+<bl602_std/StdDriver/Src/bl602_spi.c>",
+				"+<bl602_std/StdDriver/Src/bl602_i2c.c>",
+				"+<bl602_std/Common/soft_crc/softcrc.c>",
+				
+				"+<bl602_std/StdDriver/Src/bl602_romapi.c>",
+				"+<bl602_std/StdDriver/Src/bl602_sflash_ext.c>",
+				"+<bl602_std/StdDriver/Src/bl602_sf_cfg_ext.c>",
+				"+<bl602_std/StdDriver/Src/bl602_xip_sflash_ext.c>"
+			]
 		},
 		"blfdt": {
 			"depends": [],
@@ -241,7 +295,10 @@
 				"components/platform/hosal/bl602_hal",
 				"components/platform/hosal/platform_hal"
 			],
-			"include_dirs_priv": [],
+			"include_dirs_priv": [
+				"components/network/wifi/include",
+				"components/network/ble/blecontroller/ble_inc"
+			],
 			"source_dir": "components/platform/hosal",
 			"source_filter": [
 				"-<*>",
@@ -283,7 +340,6 @@
 			"source_filter": ""
 		},
 		"freertos_riscv_ram": {
-			"comment": "TODO: broken source filter",
 			"depends": [],
 			"defines": [],
 			"include_dirs": [
@@ -320,8 +376,11 @@
 				"components/sys/bloop/bloop/include"
 			],
 			"include_dirs_priv": [],
-			"source_dir": 	"components/sys/bloop/bloop",
-			"source_filter": ""
+			"source_dir": 	"components/utils/src",
+			"source_filter": [
+				"+<**>",
+				"-<utils_hmac.c>"
+			]
 		},
 		"vfs": {
 			"depends": [],
