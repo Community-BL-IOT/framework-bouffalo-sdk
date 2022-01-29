@@ -87,14 +87,22 @@ def eval_conditionals(branch):
         match statement[0]:
             case 'ifeq':
                 svalue = define_val(statement[1])
-                print("DEBUG (" + statement[1] + "):" + str(svalue))
                 if svalue == statement[2]:
+                    print("CONDITION MET (" + statement[1] + "):" + str(svalue))
                     if 'include_dirs' in branch:
                         include_dirs += branch['include_dirs']
             case 'ifdef':
-                no_op = 0
+                svalue = define_val(statement[1])
+                if svalue != False:
+                    print("CONDITION MET (" + statement[1] + "):" + str(svalue))
+                    if 'include_dirs' in branch:
+                        include_dirs += branch['include_dirs']
             case 'ifndef':
-                no_op = 0
+                svalue = define_val(statement[1])
+                if svalue == False:
+                    print("CONDITION MET (" + statement[1] + "):" + str(svalue))
+                    if 'include_dirs' in branch:
+                        include_dirs += branch['include_dirs']
             case _:
                 print("WARNING: invalid conditional statement")
 
