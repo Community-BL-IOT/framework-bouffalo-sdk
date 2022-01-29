@@ -69,6 +69,36 @@ defines = SDKDATA['sdk']['defaults']['defines']
 for x in range(0, len(SDKDATA['sdk']['defaults']['include_dirs'])):
     include_dirs.append(join(FRAMEWORK_DIR, SDKDATA['sdk']['defaults']['include_dirs'][x]))
 
+def define_val(txt):
+    for x in range(0, len(defines)):
+        stmt = defines[x]
+        if isinstance(stmt, list):
+            if(stmt[0] == txt):
+                return stmt[1]
+        else:
+            if(stmt == txt):
+                return True
+    return False
+
+def eval_conditionals(branch):
+    for eval in branch:
+        statement = eval.split()
+
+        match statement[0]:
+            case 'ifeq':
+                svalue = define_val(statement[1])
+                print("DEBUG (" + statement[1] + "):" + str(svalue))
+                if svalue == statement[2]:
+                    if 'include_dirs' in branch:
+                        include_dirs += branch['include_dirs']
+            case 'ifdef':
+                no_op = 0
+            case 'ifndef':
+                no_op = 0
+            case _:
+                print("WARNING: invalid conditional statement")
+
+
 # add package specific includes and definitions
 for i in range(len(COMPONENTS)):
     # select specific hosal build
@@ -76,7 +106,12 @@ for i in range(len(COMPONENTS)):
         COMPONENTS[i] = "hosal-" + bl_chipname
 
     if COMPONENTS[i] in SDKDATA['components']:
+        defines += SDKDATA['components'][COMPONENTS[i]]['defines']
         include_dirs += SDKDATA['components'][COMPONENTS[i]]['include_dirs']
+
+        # TODO: Eval conditionals
+        if 'conditionals' in SDKDATA['components'][COMPONENTS[i]]:
+            eval_conditionals(SDKDATA['components'][COMPONENTS[i]]['conditionals'])
 
 env.Append(
     ASFLAGS=["-x", "assembler-with-cpp"],
@@ -202,7 +237,6 @@ for x in COMPONENTS:
     # Clone and set up component build env
     env_c = env.Clone()
     env_c.Append(
-        CPPDEFINES=component['defines'],
         CPPPATH=include_dirs_priv
     )
     # TODO: Evaluate conditionals
