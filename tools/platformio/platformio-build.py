@@ -83,28 +83,27 @@ def define_val(txt):
 def eval_conditionals(branch):
     for eval in branch:
         statement = eval.split()
-
-        match statement[0]:
-            case 'ifeq':
-                svalue = define_val(statement[1])
-                if svalue == statement[2]:
-                    print("CONDITION MET (" + statement[1] + "):" + str(svalue))
-                    if 'include_dirs' in branch:
-                        include_dirs += branch['include_dirs']
-            case 'ifdef':
-                svalue = define_val(statement[1])
-                if svalue != False:
-                    print("CONDITION MET (" + statement[1] + "):" + str(svalue))
-                    if 'include_dirs' in branch:
-                        include_dirs += branch['include_dirs']
-            case 'ifndef':
-                svalue = define_val(statement[1])
-                if svalue == False:
-                    print("CONDITION MET (" + statement[1] + "):" + str(svalue))
-                    if 'include_dirs' in branch:
-                        include_dirs += branch['include_dirs']
-            case _:
-                print("WARNING: invalid conditional statement")
+        first_statement = statement[0] 
+        if first_statement == 'ifeq':
+            svalue = define_val(statement[1])
+            if svalue == statement[2]:
+                print("CONDITION MET (" + statement[1] + "):" + str(svalue))
+                if 'include_dirs' in branch:
+                    include_dirs += branch['include_dirs']
+        elif first_statement == 'ifdef':
+            svalue = define_val(statement[1])
+            if svalue != False:
+                print("CONDITION MET (" + statement[1] + "):" + str(svalue))
+                if 'include_dirs' in branch:
+                    include_dirs += branch['include_dirs']
+        elif first_statement == 'ifndef':
+            svalue = define_val(statement[1])
+            if svalue == False:
+                print("CONDITION MET (" + statement[1] + "):" + str(svalue))
+                if 'include_dirs' in branch:
+                    include_dirs += branch['include_dirs']
+        else:
+            print("WARNING: invalid conditional statement")
 
 
 # add package specific includes and definitions
